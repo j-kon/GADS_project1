@@ -38,7 +38,12 @@ class _ScreenOneState extends State<ScreenOne> {
         ),
         body: TabBarView(
           children: [
-            Text('data'),
+            ListView.builder(
+              itemCount: 0,
+              itemBuilder: (context, index) {
+                return Text('$index');
+              },
+            ),
             Text('data'),
           ],
         ),
