@@ -11,22 +11,39 @@ class ScreenOne extends StatefulWidget {
 }
 
 class _ScreenOneState extends State<ScreenOne> {
-  List users = [];
+  bool loadingHours = false;
+  bool loadingSkill = false;
+  List usersHours = [];
+  List usersSkill = [];
 
-  Future getUsers() async {
-    print('Fetching...');
+  Future getusersHours() async {
+    setState(() {
+      loadingHours = true;
+    });
     final res = await RequestResources().getResources('api/hours');
     var body = json.decode(res.body);
     setState(() {
-      users = body;
+      usersHours = body;
+      loadingHours = false;
     });
-    // return Users.fromJson(json.decode(res.body[0]));
-    // print(body);
+  }
+
+  Future getusersSkill() async {
+    setState(() {
+      loadingSkill = true;
+    });
+    final res = await RequestResources().getResources('api/skilliq');
+    var body = json.decode(res.body);
+    setState(() {
+      usersSkill = body;
+      loadingSkill = false;
+    });
   }
 
   @override
   void initState() {
-    getUsers();
+    getusersHours();
+    getusersSkill();
     super.initState();
   }
 
@@ -60,28 +77,48 @@ class _ScreenOneState extends State<ScreenOne> {
         ),
         body: TabBarView(
           children: [
-            ListView.builder(
-              itemCount: users.length ?? 0,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Card(
-                    child: ListTile(
-                      leading: Image.network(users[index]['badgeUrl']),
-                      title: Text(users[index]['name']),
-                      subtitle: Text(
-                          '${users[index]['hours']} learnin hours, ${users[index]['country']}'),
-                    ),
+            !loadingHours
+                ? ListView.builder(
+                    itemCount: usersHours.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Card(
+                          child: ListTile(
+                            leading:
+                                Image.network(usersHours[index]['badgeUrl']),
+                            title: Text(usersHours[index]['name']),
+                            subtitle: Text(
+                                '${usersHours[index]['hours']} learnin hours, ${usersHours[index]['country']}'),
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : Center(
+                    child: CircularProgressIndicator(),
                   ),
-                );
-              },
-            ),
-            ListView.builder(
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return Text('$index');
-              },
-            ),
+            !loadingHours
+                ? ListView.builder(
+                    itemCount: usersSkill.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Card(
+                          child: ListTile(
+                            leading:
+                                Image.network(usersSkill[index]['badgeUrl']),
+                            title: Text(usersSkill[index]['name']),
+                            subtitle: Text(
+                                '${usersSkill[index]['score']} skill IQ score, ${usersSkill[index]['country']}'),
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : Center(
+                    child: CircularProgressIndicator(),
+                  ),
           ],
         ),
       ),
