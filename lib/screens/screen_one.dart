@@ -44,7 +44,12 @@ class _ScreenOneState extends State<ScreenOne> {
                 return Text('$index');
               },
             ),
-            Text('data'),
+            ListView.builder(
+              itemCount: 0,
+              itemBuilder: (context, index) {
+                return Text('$index');
+              },
+            ),
           ],
         ),
       ),
