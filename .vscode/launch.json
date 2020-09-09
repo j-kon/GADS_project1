@@ -4,10 +4,48 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
-            "name": "GADS_project1",
+            "name": "Flutter",
+            "program": "lib/main.dart",
             "request": "launch",
             "type": "dart"
+        },
+        {
+            "name": "BynaAndroid",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554"
+        },
+        {
+            "name": "BynaIphone11",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "12943D79-FB33-4541-A312-69F904D685A5"
+        },
+        {
+            "name": "BynaIphone8",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "AC55F974-10B5-45B4-B6A4-5FD17ECF3E40"
+        },
+        {
+            "name": "Mode",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "3e13d2c29dcb731d4187014d7217f764f95b9a6e"
+        },
+        {
+            "name": "JaykonRedmi",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "257e36b8"
+        },
+    ],
+    "compounds": [
+        {
+            "name": "All Devices",
+            "configurations": ["BynaIphone11", "BynaAndroid", "Mode"],
         }
     ]
 }

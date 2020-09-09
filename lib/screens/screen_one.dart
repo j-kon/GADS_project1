@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:aad_practice_project/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -8,6 +11,25 @@ class ScreenOne extends StatefulWidget {
 }
 
 class _ScreenOneState extends State<ScreenOne> {
+  List users = [];
+
+  Future getUsers() async {
+    print('Fetching...');
+    final res = await RequestResources().getResources('api/hours');
+    var body = json.decode(res.body);
+    setState(() {
+      users = body;
+    });
+    // return Users.fromJson(json.decode(res.body[0]));
+    // print(body);
+  }
+
+  @override
+  void initState() {
+    getUsers();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -39,13 +61,23 @@ class _ScreenOneState extends State<ScreenOne> {
         body: TabBarView(
           children: [
             ListView.builder(
-              itemCount: 0,
+              itemCount: users.length ?? 0,
               itemBuilder: (context, index) {
-                return Text('$index');
+                return Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Card(
+                    child: ListTile(
+                      leading: Image.network(users[index]['badgeUrl']),
+                      title: Text(users[index]['name']),
+                      subtitle: Text(
+                          '${users[index]['hours']} learnin hours, ${users[index]['country']}'),
+                    ),
+                  ),
+                );
               },
             ),
             ListView.builder(
-              itemCount: 0,
+              itemCount: 1,
               itemBuilder: (context, index) {
                 return Text('$index');
               },

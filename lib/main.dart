@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(),
       darkTheme: ThemeData.dark(),
-      initialRoute: ScreenTwo.id,
+      initialRoute: ScreenOne.id,
       routes: {
         SplashScreen.id: (context) => SplashScreen(),
         ScreenOne.id: (context) => ScreenOne(),
