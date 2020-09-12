@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aad_practice_project/screens/screen_two.dart';
 import 'package:aad_practice_project/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,20 +44,40 @@ class _ScreenOneState extends State<ScreenOne> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: Text('Leader Board'),
-          actions: [
-            RaisedButton(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              onPressed: () {},
-              child: Text(
-                'Submit',
-                style: GoogleFonts.roboto(color: Colors.black),
-              ),
+          title: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'LEADERBOARD',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                ButtonTheme(
+                  height: 20,
+                  minWidth: 100,
+                  child: RaisedButton(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, ScreenTwo.id);
+                    },
+                    child: Text(
+                      'Submit',
+                      style: GoogleFonts.roboto(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
           bottom: TabBar(
             tabs: [
               Text('Learning Leaders'),
