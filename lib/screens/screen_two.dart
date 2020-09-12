@@ -65,12 +65,12 @@ class _ScreenTwoState extends State<ScreenTwo> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: isSubmitting
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : Container(
+      body: isSubmitting
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,7 +187,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
                   ],
                 ),
               ),
-      ),
+            ),
     );
   }
 }
