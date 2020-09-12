@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:aad_practice_project/services/api.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ScreenTwo extends StatefulWidget {
   static const String id = 'screen_two';
@@ -42,11 +43,21 @@ class _ScreenTwoState extends State<ScreenTwo> {
       setState(() {
         isSubmitting = false;
       });
+      Alert(
+        context: context,
+        title: 'Submission Successful',
+        type: AlertType.success,
+      ).show();
     } else {
       print(statusCode);
       setState(() {
         isSubmitting = false;
       });
+      Alert(
+        context: context,
+        title: 'Submission not Successful',
+        type: AlertType.error,
+      ).show();
     }
   }
 
@@ -137,7 +148,35 @@ class _ScreenTwoState extends State<ScreenTwo> {
                         ),
                         color: Color.fromRGBO(44, 138, 248, 1),
                         elevation: 0.0,
-                        onPressed: doSubmit,
+                        onPressed: () {
+                          Alert(
+                            context: context,
+                            title: 'Are you sure? ',
+                            buttons: [
+                              DialogButton(
+                                width: 100,
+                                child: Container(
+                                  height: 35,
+                                  width: 290,
+                                  color: Colors.white,
+                                  child: Text(
+                                    "Yes",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.orange,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  doSubmit();
+                                  Navigator.pop(context);
+                                },
+                                color: Colors.orange,
+                              )
+                            ],
+                          ).show();
+                        },
                         child: Text('Submit',
                             style: TextStyle(
                                 color: Colors.white,
