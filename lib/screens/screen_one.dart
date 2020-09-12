@@ -11,39 +11,28 @@ class ScreenOne extends StatefulWidget {
 }
 
 class _ScreenOneState extends State<ScreenOne> {
-  bool loadingHours = false;
-  bool loadingSkill = false;
-  List usersHours = [];
-  List usersSkill = [];
+  bool isLoading = false;
+  List usersHoursList = [];
+  List usersSkillList = [];
 
-  Future getusersHours() async {
+  Future getusers() async {
     setState(() {
-      loadingHours = true;
+      isLoading = true;
     });
-    final res = await RequestResources().getResources('api/hours');
-    var body = json.decode(res.body);
+    final usersHours = await RequestResources().getResources('api/hours');
+    final usersSkill = await RequestResources().getResources('api/skilliq');
+    var usersHoursBody = json.decode(usersHours.body);
+    var usersSkillBody = json.decode(usersSkill.body);
     setState(() {
-      usersHours = body;
-      loadingHours = false;
-    });
-  }
-
-  Future getusersSkill() async {
-    setState(() {
-      loadingSkill = true;
-    });
-    final res = await RequestResources().getResources('api/skilliq');
-    var body = json.decode(res.body);
-    setState(() {
-      usersSkill = body;
-      loadingSkill = false;
+      usersHoursList = usersHoursBody;
+      usersSkillList = usersSkillBody;
+      isLoading = false;
     });
   }
 
   @override
   void initState() {
-    getusersHours();
-    getusersSkill();
+    getusers();
     super.initState();
   }
 
@@ -77,19 +66,19 @@ class _ScreenOneState extends State<ScreenOne> {
         ),
         body: TabBarView(
           children: [
-            !loadingHours
+            !isLoading
                 ? ListView.builder(
-                    itemCount: usersHours.length ?? 0,
+                    itemCount: usersHoursList.length ?? 0,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Card(
                           child: ListTile(
-                            leading:
-                                Image.network(usersHours[index]['badgeUrl']),
-                            title: Text(usersHours[index]['name']),
+                            leading: Image.network(
+                                usersHoursList[index]['badgeUrl']),
+                            title: Text(usersHoursList[index]['name']),
                             subtitle: Text(
-                                '${usersHours[index]['hours']} learnin hours, ${usersHours[index]['country']}'),
+                                '${usersHoursList[index]['hours']} learnin hours, ${usersHoursList[index]['country']}'),
                           ),
                         ),
                       );
@@ -98,19 +87,19 @@ class _ScreenOneState extends State<ScreenOne> {
                 : Center(
                     child: CircularProgressIndicator(),
                   ),
-            !loadingHours
+            !isLoading
                 ? ListView.builder(
-                    itemCount: usersSkill.length ?? 0,
+                    itemCount: usersSkillList.length ?? 0,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Card(
                           child: ListTile(
-                            leading:
-                                Image.network(usersSkill[index]['badgeUrl']),
-                            title: Text(usersSkill[index]['name']),
+                            leading: Image.network(
+                                usersSkillList[index]['badgeUrl']),
+                            title: Text(usersSkillList[index]['name']),
                             subtitle: Text(
-                                '${usersSkill[index]['score']} skill IQ score, ${usersSkill[index]['country']}'),
+                                '${usersSkillList[index]['score']} skill IQ score, ${usersSkillList[index]['country']}'),
                           ),
                         ),
                       );
